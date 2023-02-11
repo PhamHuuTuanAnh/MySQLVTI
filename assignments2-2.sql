@@ -1,3 +1,6 @@
+/* Assignments 2*/
+/* Performer: Phạm Hữu Tuấn Anh*/
+
 create database if not exists assignments22;
 use assignments22;
 /* create department*/
@@ -36,8 +39,8 @@ create table GroupAccount (
 GroupID tinyint primary key auto_increment,
 AccountID int not null unique,
 JoinDate date not null,
-Foreign key (GroupID) REFERENCES `Group` (GroupID),
-Foreign key (AccountID) REFERENCES Account (AccountID)
+constraint Group_GroupID_fk Foreign key (GroupID) REFERENCES `Group` (GroupID),
+constraint Account_Account_fk Foreign key (AccountID) REFERENCES Account (AccountID)
 );
 /* create  TypeQuestion*/
 create table TypeQuestion (
@@ -57,9 +60,9 @@ CategoryID int not  null,
 TypeID int not null,
 CreatorID int not null unique,
 CreateDate date not null,
-Foreign key (CategoryID) REFERENCES CategoryQuestion (CategoryID),
-Foreign key (TypeID) REFERENCES TypeQuestion (TypeID),
-Foreign key (CreatorID) REFERENCES Account (AccountID)
+constraint CategoryQuestion_CategoryID_fk Foreign key (CategoryID) REFERENCES CategoryQuestion (CategoryID),
+constraint TypeQuestion_TypeID_fk Foreign key (TypeID) REFERENCES TypeQuestion (TypeID),
+constraint Account_CreatorID_fk Foreign key (CreatorID) REFERENCES Account (AccountID)
 );
 /* create Answer*/
 create table Answer (
@@ -67,7 +70,7 @@ AnswerID int primary key auto_increment,
 Content Text not null,
 QuestionID int not null,
 isCorrect boolean not null,
-Foreign key (QuestionID) REFERENCES Question (QuestionID)
+constraint Question_QuestionID_fk Foreign key (QuestionID) REFERENCES Question (QuestionID)
 );
 /* create Exam*/
 create table Exam (
@@ -75,16 +78,16 @@ ExamID int primary key auto_increment,
 `code` varchar(20) not null,
 Title varchar(20) not null,
 CategoryID int not null,
-Duration int not null,
+Duration time not null,
 CreatorID int not null unique,
 CreateDate date not null,
-Foreign key (CreatorID) REFERENCES Account (AccountID),
-Foreign key (CategoryID) REFERENCES CategoryQuestion (CategoryID)
+constraint Account_CreatorID_fk Foreign key (CreatorID) REFERENCES Account (AccountID),
+constraint CategoryQuestion_CategoryID_fk Foreign key (CategoryID) REFERENCES CategoryQuestion (CategoryID)
 );
 /* create ExamQuestion*/
 create table  ExamQuestion (
 ExamID int primary key auto_increment,
 QuestionID int not null,
-foreign key (ExamID) REFERENCES Exam (ExamID),
-Foreign key (QuestionID) REFERENCES Answer (QuestionID)
+constraint Exam_ExamID_fk foreign key (ExamID) REFERENCES Exam (ExamID),
+constraint Answer_QuestionID_fk Foreign key (QuestionID) REFERENCES Answer (QuestionID)
 );
