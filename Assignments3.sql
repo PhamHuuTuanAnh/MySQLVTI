@@ -29,12 +29,17 @@ SELECT *
 FROM `account`
 Where length(Fullname) = (Select max(length(Fullname)) FROM `account`);
 -- Question 5: Lấy ra thông tin account có full name dài nhất và thuộc phòng ban có id = 3
-SELECT a.AccountID, a.FullName, LENGTH(a.FullName) AS NameLength
-FROM account AS a
-JOIN department AS d ON a.DepartmentID = d.DepartmentID -- kết hợp hai bảng account và department theo trường DepartmentID
-WHERE d.DepartmentID = 3 -- lọc dữ liệu theo điều kiện id của phòng ban là 3
+SELECT ac.AccountID, db.DepartmentID, ac.FullName, LENGTH(ac.FullName) AS NameLength
+FROM `account` AS ac
+left JOIN department AS db ON ac.DepartmentID = db.DepartmentID -- kết hợp hai bảng account và department theo trường DepartmentID
+WHERE db.DepartmentID = 3 -- lọc dữ liệu theo điều kiện id của phòng ban là 3
 ORDER BY NameLength DESC
-LIMIT 2; --  giới hạn kết quả trả về chỉ 2 dòng dài nhất
+LIMIT 1; --  giới hạn kết quả trả về chỉ 2 dòng dài nhất
+ -- Cách 2:
+ Select AccountID, FullName, DepartmentID
+ from `account`
+ Where length(Fullname) = (Select max(length(Fullname))
+ FROM `account`) and DepartmentID = 3;
 -- Question 6: Lấy ra tên group đã tham gia trước ngày 20/12/2019
 SELECT GroupName
 FROM `group`
@@ -54,8 +59,9 @@ FROM `group`
 ORDER BY CreatedDate DESC
 LIMIT 5;
 -- Question 10: Đếm số nhân viên thuộc department có id = 2
-SELECT COUNT(*) 
-FROM account 
+  -- Cách 1:
+SELECT COUNT(*) as Tong_NV
+FROM `account`
 WHERE DepartmentID = 2;
 -- Question 11: Lấy ra nhân viên có tên bắt đầu bằng chữ "D" và kết thúc bằng chữ "o"
 SELECT *
